@@ -1,0 +1,57 @@
+unit uConection;
+
+interface
+
+uses FireDAC.Comp.Client;
+
+  Type
+     TConexaoDB = class
+       private
+         fConnection : TFDConnection;
+       protected
+         procedure ConfigurarDB;
+         procedure ConfigurarTabelas;
+         procedure CriarTabela(sTabela : String);
+       public
+         constructor Create;
+         destructor Destroy;
+
+         function NovoID(psTabela, psId : String) : Integer;
+       published
+         property Connection : TFDConnection read fConnection;
+     end;
+implementation
+
+{ TConexaoDB }
+
+procedure TConexaoDB.ConfigurarDB;
+begin
+
+end;
+
+procedure TConexaoDB.ConfigurarTabelas;
+begin
+
+end;
+
+constructor TConexaoDB.Create;
+begin
+
+end;
+
+procedure TConexaoDB.CriarTabela(sTabela: String);
+begin
+
+end;
+
+destructor TConexaoDB.Destroy;
+begin
+
+end;
+
+function TConexaoDB.NovoID(psTabela, psId: String): Integer;
+begin
+
+end;
+
+end.

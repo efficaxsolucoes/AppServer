@@ -16,14 +16,14 @@ object Form1: TForm1
   TextHeight = 13
   object Label1: TLabel
     Left = 24
-    Top = 48
+    Top = 126
     Width = 20
     Height = 13
     Caption = 'Port'
   end
   object ButtonStart: TButton
     Left = 24
-    Top = 8
+    Top = 86
     Width = 75
     Height = 25
     Caption = 'Start'
@@ -32,7 +32,7 @@ object Form1: TForm1
   end
   object ButtonStop: TButton
     Left = 105
-    Top = 8
+    Top = 86
     Width = 75
     Height = 25
     Caption = 'Stop'
@@ -41,7 +41,7 @@ object Form1: TForm1
   end
   object EditPort: TEdit
     Left = 24
-    Top = 67
+    Top = 145
     Width = 121
     Height = 21
     TabOrder = 2
@@ -49,7 +49,7 @@ object Form1: TForm1
   end
   object ButtonOpenBrowser: TButton
     Left = 24
-    Top = 112
+    Top = 190
     Width = 107
     Height = 25
     Caption = 'Open Browser'
@@ -57,16 +57,17 @@ object Form1: TForm1
     OnClick = ButtonOpenBrowserClick
   end
   object Panel1: TPanel
-    Left = 344
-    Top = 8
-    Width = 225
-    Height = 177
-    Caption = 'Panel1'
+    Left = 0
+    Top = 0
+    Width = 594
+    Height = 49
+    Align = alTop
+    Caption = 'Servidor de Aplica'#231#245'es'
     TabOrder = 4
   end
   object ApplicationEvents1: TApplicationEvents
     OnIdle = ApplicationEvents1Idle
     Left = 248
-    Top = 48
+    Top = 126
   end
 end

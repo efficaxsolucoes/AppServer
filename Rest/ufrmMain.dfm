@@ -2,8 +2,8 @@ object Form1: TForm1
   Left = 271
   Top = 114
   Caption = 'Form1'
-  ClientHeight = 149
-  ClientWidth = 355
+  ClientHeight = 223
+  ClientWidth = 594
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,20 +20,6 @@ object Form1: TForm1
     Width = 20
     Height = 13
     Caption = 'Port'
-  end
-  object Label2: TLabel
-    Left = 168
-    Top = 88
-    Width = 27
-    Height = 13
-    Caption = 'Teste'
-  end
-  object Label3: TLabel
-    Left = 200
-    Top = 128
-    Width = 33
-    Height = 13
-    Caption = 'Teste2'
   end
   object ButtonStart: TButton
     Left = 24
@@ -69,6 +55,14 @@ object Form1: TForm1
     Caption = 'Open Browser'
     TabOrder = 3
     OnClick = ButtonOpenBrowserClick
+  end
+  object Panel1: TPanel
+    Left = 344
+    Top = 8
+    Width = 225
+    Height = 177
+    Caption = 'Panel1'
+    TabOrder = 4
   end
   object ApplicationEvents1: TApplicationEvents
     OnIdle = ApplicationEvents1Idle

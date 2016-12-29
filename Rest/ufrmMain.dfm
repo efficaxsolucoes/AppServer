@@ -2,8 +2,8 @@ object Form1: TForm1
   Left = 271
   Top = 114
   Caption = 'Form1'
-  ClientHeight = 223
-  ClientWidth = 594
+  ClientHeight = 221
+  ClientWidth = 395
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -59,19 +59,24 @@ object Form1: TForm1
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 594
-    Height = 49
+    Width = 395
+    Height = 80
     Align = alTop
+    BorderWidth = 4
+    BorderStyle = bsSingle
     Caption = 'Servidor de Aplica'#231#245'es'
+    Color = clRed
+    Ctl3D = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clHighlightText
+    Font.Height = -27
+    Font.Name = 'Verdana'
+    Font.Style = [fsBold]
+    ParentBackground = False
+    ParentCtl3D = False
+    ParentFont = False
     TabOrder = 4
-  end
-  object Button1: TButton
-    Left = 480
-    Top = 72
-    Width = 75
-    Height = 25
-    Caption = 'Button1'
-    TabOrder = 5
+    ExplicitWidth = 594
   end
   object ApplicationEvents1: TApplicationEvents
     OnIdle = ApplicationEvents1Idle

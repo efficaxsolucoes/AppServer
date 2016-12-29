@@ -56,14 +56,6 @@ object Form1: TForm1
     TabOrder = 3
     OnClick = ButtonOpenBrowserClick
   end
-  object Button1: TButton
-    Left = 152
-    Top = 80
-    Width = 75
-    Height = 25
-    Caption = 'Button1'
-    TabOrder = 4
-  end
   object ApplicationEvents1: TApplicationEvents
     OnIdle = ApplicationEvents1Idle
     Left = 248

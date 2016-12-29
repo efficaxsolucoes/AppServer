@@ -65,6 +65,14 @@ object Form1: TForm1
     Caption = 'Servidor de Aplica'#231#245'es'
     TabOrder = 4
   end
+  object Button1: TButton
+    Left = 480
+    Top = 72
+    Width = 75
+    Height = 25
+    Caption = 'Button1'
+    TabOrder = 5
+  end
   object ApplicationEvents1: TApplicationEvents
     OnIdle = ApplicationEvents1Idle
     Left = 248

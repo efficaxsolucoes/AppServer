@@ -87,7 +87,7 @@ end;
 
 destructor TConexaoDB.Destroy;
 begin
-
+  fConnection.Free;
 end;
 
 function TConexaoDB.NovoID(psTabela, psId: String): Integer;

@@ -21,20 +21,6 @@ object Form1: TForm1
     Height = 13
     Caption = 'Port'
   end
-  object Label2: TLabel
-    Left = 168
-    Top = 88
-    Width = 27
-    Height = 13
-    Caption = 'Teste'
-  end
-  object Label3: TLabel
-    Left = 200
-    Top = 128
-    Width = 33
-    Height = 13
-    Caption = 'Teste2'
-  end
   object ButtonStart: TButton
     Left = 24
     Top = 8
@@ -69,6 +55,14 @@ object Form1: TForm1
     Caption = 'Open Browser'
     TabOrder = 3
     OnClick = ButtonOpenBrowserClick
+  end
+  object Button1: TButton
+    Left = 152
+    Top = 80
+    Width = 75
+    Height = 25
+    Caption = 'Button1'
+    TabOrder = 4
   end
   object ApplicationEvents1: TApplicationEvents
     OnIdle = ApplicationEvents1Idle

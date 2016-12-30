@@ -5,18 +5,16 @@ interface
 // Metadados
    resourcestring
      // Tabela de Cliente --------------------------------------------------
-     tbl_Cliente  = 'Cliente (Cliente_ID             INT(10)    , ' +
-                             'Cliente_Nome           VARCHAR(60), ' +
-                             'Cliente_DataNascimento DATE       , ' +
-                             'Cliente_Telefone       VARCHAR(12), ' +
-                             'Cliente_Email          VARCHAR(60), ' +
-                             'Cliente_DataCadastro   DATE         ' +
+     tbl_Cliente  = 'Cliente (ID             INT(10)    , ' +
+                             'Nome           VARCHAR(60), ' +
+                             'DataNascimento DATE       , ' +
+                             'DataCadastro   DATE         ' +
                              ')                                   ' ;
 
      // Tabela de Produto --------------------------------------------------
-     tbl_Produtos = 'Produto (Produto_ID      INT        ,' +
-                             'Produto_Codigo  VARCHAR(12),' +
-                             'Produto_Nome    VARCHAR(60),' +
+     tbl_Produtos = 'Produto (ID      INT        ,' +
+                             'Codigo  VARCHAR(12),' +
+                             'Nome    VARCHAR(60),' +
                              'Produto_preco   REAL        ' +
                              ')                           ' ;
 

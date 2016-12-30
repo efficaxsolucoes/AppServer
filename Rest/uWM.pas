@@ -15,17 +15,27 @@ type
   TWM = class(TWebModule)
     DSHTTPWebDispatcher1: TDSHTTPWebDispatcher;
     DSServer1: TDSServer;
+   DSAuthenticationManager1: TDSAuthenticationManager;
     DSServerClass1: TDSServerClass;
     ServerFunctionInvoker: TPageProducer;
     ReverseString: TPageProducer;
+    WebFileDispatcher1: TWebFileDispatcher;
+    DSProxyGenerator1: TDSProxyGenerator;
+    DSServerMetaDataProvider1: TDSServerMetaDataProvider;
     procedure DSServerClass1GetClass(DSServerClass: TDSServerClass;
       var PersistentClass: TPersistentClass);
+    procedure DSAuthenticationManager1UserAuthenticate(Sender: TObject;
+      const Protocol, Context, User, Password: string; var valid: Boolean;
+      UserRoles: TStrings);
     procedure ServerFunctionInvokerHTMLTag(Sender: TObject; Tag: TTag;
       const TagString: string; TagParams: TStrings; var ReplaceText: string);
     procedure WebModuleDefaultAction(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
     procedure WebModuleBeforeDispatch(Sender: TObject;
       Request: TWebRequest; Response: TWebResponse; var Handled: Boolean);
+    procedure WebFileDispatcher1BeforeDispatch(Sender: TObject;
+      const AFileName: string; Request: TWebRequest; Response: TWebResponse;
+      var Handled: Boolean);
     procedure WebModuleCreate(Sender: TObject);
   private
     { Private declarations }
@@ -43,12 +53,19 @@ implementation
 
 {$R *.dfm}
 
-uses usm, Web.WebReq;
+uses uSM, Web.WebReq;
 
 procedure TWM.DSServerClass1GetClass(
   DSServerClass: TDSServerClass; var PersistentClass: TPersistentClass);
 begin
-  PersistentClass := uSM.TSM;
+  PersistentClass := usm.TSM;
+end;
+
+procedure TWM.DSAuthenticationManager1UserAuthenticate(
+  Sender: TObject; const Protocol, Context, User, Password: string;
+  var valid: Boolean; UserRoles: TStrings);
+begin
+  valid := True;
 end;
 
 procedure TWM.ServerFunctionInvokerHTMLTag(Sender: TObject; Tag: TTag;
@@ -100,6 +117,22 @@ function TWM.AllowServerFunctionInvoker: Boolean;
 begin
   Result := (Request.RemoteAddr = '127.0.0.1') or
     (Request.RemoteAddr = '0:0:0:0:0:0:0:1') or (Request.RemoteAddr = '::1');
+end;
+
+procedure TWM.WebFileDispatcher1BeforeDispatch(Sender: TObject;
+  const AFileName: string; Request: TWebRequest; Response: TWebResponse;
+  var Handled: Boolean);
+var
+  D1, D2: TDateTime;
+begin
+  Handled := False;
+  if SameFileName(ExtractFileName(AFileName), 'serverfunctions.js') then
+    if not FileExists(AFileName) or (FileAge(AFileName, D1) and FileAge(WebApplicationFileName, D2) and (D1 < D2)) then
+    begin
+      DSProxyGenerator1.TargetDirectory := ExtractFilePath(AFileName);
+      DSProxyGenerator1.TargetUnitName := ExtractFileName(AFileName);
+      DSProxyGenerator1.Write;
+    end;
 end;
 
 procedure TWM.WebModuleCreate(Sender: TObject);

@@ -1,7 +1,7 @@
-object Form1: TForm1
+object frmMain: TfrmMain
   Left = 271
   Top = 114
-  Caption = 'Form1'
+  Caption = 'frmMain'
   ClientHeight = 221
   ClientWidth = 395
   Color = clBtnFace
@@ -76,11 +76,15 @@ object Form1: TForm1
     ParentCtl3D = False
     ParentFont = False
     TabOrder = 4
-    ExplicitWidth = 594
   end
   object ApplicationEvents1: TApplicationEvents
     OnIdle = ApplicationEvents1Idle
     Left = 248
     Top = 126
+  end
+  object FDGUIxWaitCursor1: TFDGUIxWaitCursor
+    Provider = 'Forms'
+    Left = 328
+    Top = 104
   end
 end

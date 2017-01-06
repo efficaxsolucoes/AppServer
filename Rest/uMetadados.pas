@@ -5,8 +5,9 @@ interface
 // Metadados
    resourcestring
      // Tabela de Cliente --------------------------------------------------
-     tbl_Cliente  = 'Cliente (ID             INT(10)    , ' +
-                             'Nome           VARCHAR(60), ' +
+     tbl_Cliente  = 'Pessoas (ID             INT    , ' +
+                             'Nome           VARCHAR(100), ' +
+                             'Fantasia           VARCHAR(100), ' +
                              'DataNascimento DATE       , ' +
                              'DataCadastro   DATE         ' +
                              ')                                   ' ;

@@ -16,6 +16,9 @@ Uses
        private
          fConnection : TFDConnection;
        protected
+
+         function Existe(xSql: string): boolean;
+
          procedure ConfigurarDB;
          procedure ConfigurarDBMSSQL;
          procedure ConfigurarTabelas;
@@ -24,7 +27,7 @@ Uses
        public
          constructor Create;
          destructor Destroy;
-
+         function Execute(const Qry: TFDQuery): boolean;
          function NovoID(psTabela, psId : String) : Integer;
        published
          property Connection : TFDConnection read fConnection;
@@ -45,16 +48,15 @@ uses
 
 procedure TConexaoDB.ConfigurarDB;
 Const
-  sNameDB = 'db\DB_AppREST.s3db';
-
+  sNameDB = 'Efficax.s3db';
 Var
   DIR             : String;
  sDbPath          : String;
  configuraTabelas : Boolean;
  handleFile       : Integer;
 begin
-  dir := ExtractFilePath(Application.ExeName) + 'DB';
-  sDbPath := ExtractFilePath(Application.ExeName) + sNameDB ;
+  dir     := ExtractFilePath(Application.ExeName) + 'DB\';
+  sDbPath := Dir +  sNameDB ;
 
   if not DirectoryExists(DIR) then
     forceDirectories(DIR);
@@ -71,7 +73,6 @@ begin
   Connection.Params.Clear;
   Connection.Params.Values['Database']     := sDbPath;
   Connection.Params.Values['DriverID']     := 'SQLite';
-//  Connection.Params.Values['DriverID']     := 'MSSQL';
   Connection.Params.Values['CharacterSet'] := 'utf8';
   Connection.Connected := True;
 
@@ -81,47 +82,21 @@ begin
 end;
 
 procedure TConexaoDB.ConfigurarDBMSSQL;
-const
-  sNameDB = 'efficax1.mdf';
-Var
- ScriptCriarBanco          : string;
- DIR              : String;
- sDbPath          : String;
- configuraTabelas : Boolean;
- handleFile       : Integer;
 begin
-  dir := ExtractFilePath(Application.ExeName) + 'DB';
-  scriptcriarbanco := 'CREATE DATABASE [efficax] '
-             + ' CONTAINMENT = NONE'
-             + ' ON  PRIMARY        '
-            + ' ( NAME = N' + sNameDB + ', '
-             + '  FILENAME = N'' + dir + ''\' + sNameDB + '.mdf , SIZE = 4288KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )'
-             + ' LOG ON'
-            + ' ( NAME = N' + sNameDB +'_log, FILENAME = N' + dir + '\' + sNameDB + '_log.ldf'' , SIZE = 1072KB , MAXSIZE = 2048GB ,'
-            + ' FILEGROWTH = 10%) ';
-
-
-  if not DirectoryExists(DIR) then
-    forceDirectories(DIR);
-
-
   // Passa os parametros de Conexão e Conecta ao Banco de Dados
   Connection.LoginPrompt := False;
   Connection.Params.Clear;
-//  Connection.Params.Values['Database']      := sDbPath;
   Connection.Params.Values['DriverID']      := 'MSSQL';
+  Connection.Params.Values['DATABASE']      := 'master';
   Connection.Params.Values['CharacterSet']  := 'utf8';
   Connection.Params.Values['SERVER']        := 'localhost';
   Connection.Params.Values['user_name']     := 'sa';
-  Connection.Params.Values['Password']      := 'colibri@1234';
+  Connection.Params.Values['Password']      := '1234';
 
   Connection.Connected := True;
 
-  if Not(FileExists(sDbPath)) then
-  Begin
-     CriarBancoMSSQL(ScriptCriarBanco);
-     ConfigurarTabelas;
-  End;
+  CriarBancoMSSQL('');
+
 end;
 
 procedure TConexaoDB.ConfigurarTabelas;
@@ -135,22 +110,45 @@ end;
 constructor TConexaoDB.Create;
 begin
   fConnection := TFDConnection.Create(Nil);
-//  ConfigurarDBMSSQL;
-  ConfigurarDB;
+  ConfigurarDBMSSQL;
+//  ConfigurarDB;
 end;
 
 procedure TConexaoDB.CriarBancoMSSQL(script: string);
+const
+  xBanco = 'efficax';
 Var
+  DIR             : String;
   QueryValid : TFDQuery;
 begin
-  QueryValid := TFDQuery.Create(Connection);
-  try
-   QueryValid.Connection := Connection;
-   QueryValid.SQL.Clear;
-   QueryValid.SQL.Text := script;
-   QueryValid.ExecSQL;
-  finally
-   FreeAndNil(QueryValid);
+  dir := ExtractFilePath(Application.ExeName) + 'DB';
+  if not DirectoryExists(DIR) then
+    forceDirectories(DIR);
+
+  dir := dir + '\' + xBanco ;
+  if not FileExists(dir+'.mdf') then
+  begin
+
+    QueryValid := TFDQuery.Create(Connection);
+    try
+     QueryValid.Connection := Connection;
+     QueryValid.SQL.Clear;
+     QueryValid.SQL.Add('CREATE DATABASE [' + xBanco +']');
+     QueryValid.SQL.Add('CONTAINMENT = NONE');
+     QueryValid.SQL.Add('ON  PRIMARY');
+     QueryValid.SQL.Add('( NAME = N' + QuotedStr(xBanco) + ', FILENAME = N' + QuotedStr(dir +'.mdf') +  ',');
+     QueryValid.SQL.Add('SIZE = 5120KB , MAXSIZE = UNLIMITED, FILEGROWTH = 1024KB )');
+     QueryValid.SQL.Add('LOG ON');
+     QueryValid.SQL.Add('( NAME = N' + QuotedStr(xBanco + '_log')+', FILENAME = N' + QuotedStr(dir + '_log.ldf') +', SIZE = 2048KB , MAXSIZE = 2048GB , FILEGROWTH = 10%)');
+     QueryValid.ExecSQL;
+     Connection.Connected := false;
+     Connection.Params.Values['DATABASE']      := xBanco;
+     Connection.Connected := True;
+
+     ConfigurarTabelas;
+    finally
+     FreeAndNil(QueryValid);
+    end;
   end;
 end;
 
@@ -172,6 +170,30 @@ end;
 destructor TConexaoDB.Destroy;
 begin
   FreeAndNil(fConnection);
+end;
+
+function TConexaoDB.Execute(const Qry: TFDQuery): boolean;
+begin
+  Qry.Connection := Connection;
+  Qry.Open;
+  Result := true;
+end;
+
+function TConexaoDB.Existe(xSql: string): boolean;
+Var
+  QueryValid : TFDQuery;
+begin
+  Result := False;
+  QueryValid := TFDQuery.Create(Connection);
+  try
+   QueryValid.Connection := Connection;
+   QueryValid.SQL.Clear;
+   QueryValid.SQL.Text := xSql;
+   QueryValid.ExecSQL;
+   Result := QueryValid.RecordCount > 0;
+  finally
+   FreeAndNil(QueryValid);
+  end;
 end;
 
 function TConexaoDB.NovoID(psTabela, psId: String): Integer;

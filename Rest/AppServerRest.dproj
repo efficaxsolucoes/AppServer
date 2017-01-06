@@ -101,11 +101,6 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <DelphiCompile Include="$(MainSource)">
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
-        <DCCReference Include="ufrmMain.pas">
-            <Form>frmMain</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
-        <DCCReference Include="uSM.pas"/>
         <DCCReference Include="uWM.pas">
             <Form>WM</Form>
             <FormType>dfm</FormType>
@@ -113,7 +108,17 @@ $(PostBuildEvent)]]></PostBuildEvent>
         </DCCReference>
         <DCCReference Include="uMetadados.pas"/>
         <DCCReference Include="uConection.pas"/>
-        <DCCReference Include="..\Classes\uPessoa.pas"/>
+        <DCCReference Include="ufrmPrincipal.pas">
+            <Form>frmPrincipal</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="uSMCadastros.pas">
+            <Form>SMCadastros</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TDSServerModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="..\Classes\Dao\uPessoaDao.pas"/>
+        <DCCReference Include="..\Classes\Cadastros\uPessoa.pas"/>
         <None Include="js\base64.js"/>
         <None Include="js\serverfunctionexecutor.js"/>
         <None Include="js\json2.js"/>

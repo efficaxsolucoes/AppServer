@@ -16,13 +16,13 @@ type
     DSHTTPWebDispatcher1: TDSHTTPWebDispatcher;
     DSServer1: TDSServer;
    DSAuthenticationManager1: TDSAuthenticationManager;
-    DSServerClass1: TDSServerClass;
+    dscCadastros: TDSServerClass;
     ServerFunctionInvoker: TPageProducer;
     ReverseString: TPageProducer;
     WebFileDispatcher1: TWebFileDispatcher;
     DSProxyGenerator1: TDSProxyGenerator;
     DSServerMetaDataProvider1: TDSServerMetaDataProvider;
-    procedure DSServerClass1GetClass(DSServerClass: TDSServerClass;
+    procedure dscCadastrosGetClass(DSServerClass: TDSServerClass;
       var PersistentClass: TPersistentClass);
     procedure DSAuthenticationManager1UserAuthenticate(Sender: TObject;
       const Protocol, Context, User, Password: string; var valid: Boolean;
@@ -53,12 +53,12 @@ implementation
 
 {$R *.dfm}
 
-uses uSM, Web.WebReq;
+uses uSMCadastros, Web.WebReq;
 
-procedure TWM.DSServerClass1GetClass(
+procedure TWM.dscCadastrosGetClass(
   DSServerClass: TDSServerClass; var PersistentClass: TPersistentClass);
 begin
-  PersistentClass := usm.TSM;
+  PersistentClass := usmCadastros.TSMcadastros;
 end;
 
 procedure TWM.DSAuthenticationManager1UserAuthenticate(
@@ -78,7 +78,7 @@ begin
   else if SameText(TagString, 'host') then
     ReplaceText := string(Request.Host)
   else if SameText(TagString, 'classname') then
-    ReplaceText := uSM.TSM.ClassName
+    ReplaceText := uSMCadastros.TSMCadastros.ClassName
   else if SameText(TagString, 'loginrequired') then
     if DSHTTPWebDispatcher1.AuthenticationManager <> nil then
       ReplaceText := 'true'

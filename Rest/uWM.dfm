@@ -39,8 +39,8 @@ object WM: TWM
     Left = 232
     Top = 75
   end
-  object DSServerClass1: TDSServerClass
-    OnGetClass = DSServerClass1GetClass
+  object dscCadastros: TDSServerClass
+    OnGetClass = dscCadastrosGetClass
     Server = DSServer1
     Left = 200
     Top = 11
